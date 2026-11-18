@@ -9,7 +9,7 @@ Space Engineers 1 data mod: submarine-launched missile block. Depends on the bra
 - [../missil-misterplace/docs/deployment.md](../missil-misterplace/docs/deployment.md): dev/final deploy rules (shared by all mods)
 
 ## Rules
-- Edit only inside `Mod/`. Never edit the copies in `%APPDATA%\SpaceEngineers\Mods` directly.
+- Edit only inside `Mod/`. Never edit the copies in `<SE data>/Mods` (Windows: `%APPDATA%\SpaceEngineers\Mods`) directly.
 - Deploy with `.\deploy.ps1 dev`. Run `.\deploy.ps1 final` only when the user asks for a release.
 - `Mod/modinfo.sbmi` is generated and git-ignored. The dev target has no Workshop ID until the first dev publish;
   never copy the final ID (3685206054) into the dev target.

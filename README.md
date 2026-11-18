@@ -4,14 +4,14 @@ Submarine-launched missile blocks for the MisterWeapon modpack (Space Engineers 
 It depends on the brain mod [missil-misterplace](../missil-misterplace/README.md), which provides the guidance
 logic and underwater behaviour.
 
-| Target | Local folder in `%APPDATA%\SpaceEngineers\Mods` | Workshop ID |
+| Target | Local folder in `<SE data>/Mods` (Windows: `%APPDATA%\SpaceEngineers\Mods`) | Workshop ID |
 |---|---|---|
 | dev   | `missilSLBM-misterplace-dev` | none yet (created by the first dev Publish) |
 | final | `missilSLBM-misterplace`     | 3685206054 |
 
 ## Quick start
 ```powershell
-.\deploy.ps1 dev            # junction Mods\missilSLBM-misterplace-dev -> Mod\ (live edits)
+.\deploy.ps1 dev            # link Mods/missilSLBM-misterplace-dev -> Mod/ (live edits)
 .\deploy.ps1 final -DryRun  # preview a release
 .\deploy.ps1 final          # needs a clean git tree; copies a snapshot, tags release/<date>
 ```
