@@ -107,6 +107,25 @@ function Backup-Folder([string]$path) {
 
 if (-not (Test-Path $modsDir)) { throw "Mods folder not found: $modsDir" }
 
+# Warn (never fail) when a mod listed in deploy.json "requires" has no deployed folder for this target.
+# SE has no file-based dependency, so this is only a local check; the Workshop item must also list the
+# required mod under "Required items" on its Steam page.
+function Test-Requires {
+    foreach ($req in @($config.requires)) {
+        if ($null -eq $req) { continue }
+        $cfgPath = Join-Path (Split-Path $repo -Parent) "$($req.repo)\deploy.json"
+        if (-not (Test-Path $cfgPath)) { Write-Warning "Required mod '$($req.repo)': $cfgPath not found, cannot check."; continue }
+        $reqCfg = Get-Content $cfgPath -Raw | ConvertFrom-Json
+        $reqFolder = $reqCfg.targets.$Target.folder
+        if (-not $reqFolder -or -not (Test-Path (Join-Path $modsDir $reqFolder))) {
+            Write-Warning "Required mod '$($req.repo)' ($Target) is not deployed: run its '.\deploy.ps1 $Target'. Missing: $(Join-Path $modsDir $reqFolder)"
+        } else {
+            Write-Host "Requires '$($req.repo)': OK ($reqFolder). Enable it in the world too."
+        }
+    }
+}
+Test-Requires
+
 if ($Target -eq 'dev') {
     if (Test-Path -LiteralPath $dest) {
         if (Test-IsLink $dest) {
