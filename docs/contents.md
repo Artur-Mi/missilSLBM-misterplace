@@ -14,6 +14,13 @@ A data-only mod (no scripts). Everything is in `Mod/Data/`.
 Other files: `BlockCategories.sbc`, `BlockVariantGroups.sbc`, `BlueprintClasses.sbc` and `EntityContainer.sbc`
 register the block in the Weapons category and the build UI.
 
+## Underwater-only enforcement
+
+`WaterConfig.xml` makes the block underwater-only through the Water Mod, which only tests the block's origin cell and does
+nothing where there is no water. The brain's `AquaticLauncher` also switches the block off whenever its **muzzle** is not
+under water (including space), as long as the Water Mod is loaded
+([details](../../missil-misterplace/docs/architecture.md)).
+
 ## Dependency on the brain
 
 The behaviour of `AMissile` lives in the brain ([../../missil-misterplace/docs/architecture.md](../../missil-misterplace/docs/architecture.md)),
