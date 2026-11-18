@@ -1,0 +1,11 @@
+# Written by deploy.ps1 per target (dev/final); IDs live in deploy.json
+Mod/modinfo.sbmi
+
+# IDE / build output
+.vs/
+.idea/
+.vscode/
+bin/
+obj/
+*.user
+*.suo

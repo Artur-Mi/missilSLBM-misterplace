@@ -1,0 +1,13 @@
+{
+  "steamIdOwner": "76561198300566255",
+  "targets": {
+    "dev": {
+      "folder": "missilSLBM-misterplace-dev",
+      "workshopId": null
+    },
+    "final": {
+      "folder": "missilSLBM-misterplace",
+      "workshopId": 3685206054
+    }
+  }
+}
