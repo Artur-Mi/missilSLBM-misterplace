@@ -114,6 +114,7 @@ function Test-Requires {
     foreach ($req in @($config.requires)) {
         if ($null -eq $req) { continue }
         $cfgPath = Join-Path (Split-Path $repo -Parent) "$($req.repo)\deploy.json"
+        if (-not (Test-Path $cfgPath)) { $cfgPath = Join-Path (Split-Path (Split-Path $repo -Parent) -Parent) "$($req.repo)\deploy.json" }  # repo may sit one level deeper (IronDome\)
         if (-not (Test-Path $cfgPath)) { Write-Warning "Required mod '$($req.repo)': $cfgPath not found, cannot check."; continue }
         $reqCfg = Get-Content $cfgPath -Raw | ConvertFrom-Json
         $reqFolder = $reqCfg.targets.$Target.folder
@@ -127,10 +128,11 @@ function Test-Requires {
 Test-Requires
 
 if ($Target -eq 'dev') {
-    if (Test-Path -LiteralPath $dest) {
+    if ((Test-Path -LiteralPath $dest) -or (Test-IsLink $dest)) {
         if (Test-IsLink $dest) {
             $current = (Get-Item -LiteralPath $dest -Force).Target
-            if ($current -and ((Resolve-Path $current).Path -eq (Resolve-Path $modSrc).Path)) {
+            $cur = if ($current) { (Resolve-Path -LiteralPath $current -ErrorAction SilentlyContinue).Path } else { $null }
+            if ($cur -and ($cur -eq (Resolve-Path $modSrc).Path)) {
                 Write-Host "Link already in place: $dest -> $modSrc"
             } else {
                 Remove-Link $dest
